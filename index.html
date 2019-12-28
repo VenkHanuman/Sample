@@ -62,6 +62,17 @@
    </div>
 
 
+      <div class="repolist clearfix">
+         <p ng-hide="commitsFound">No commits!</p>
+
+         <div ng-show="commitsFound">
+            <p><strong>Commits List:</strong></p>
+            <ul ng-repeat="commit in commits">
+               <li><a href="{{commit.html_url}}" target="_blank"> {{commit.commit.author.name}} {{commit.commit.author.date}} </a></li>
+            </ul>
+         </div>
+      </div>
+
    <!--a href="http://code.notsoclever.cc/simple-github-api-webapp-angularjs-style/">http://code.notsoclever.cc/simple-github-api-webapp-angularjs-style/</a-->
 </div>
 
@@ -74,7 +85,8 @@
 
          $http.get("https://api.github.com/users/" + $scope.username)
                .success(function (data) {
-                  if (data.name == "") data.name = data.login;
+                  if (data.name == "") 
+					data.name = data.login;
                   $scope.user = data;
                   $scope.loaded = true;
                })
@@ -93,16 +105,17 @@
 
          $http.get("https://api.github.com/users/" + "VenkHanuman")
                .success(function (data) {
-                  if (data.name == "") data.name = data.login;
+                  if (data.name == "") 
+					data.name = data.login;
                   $scope.user = data;
                   $scope.loaded = true;
                })
                .error(function () {
                   $scope.userNotFound = true;
                });
-         $http.get("https://api.github.com/repos/:" + "VenkHanuman" + "/:" + $scope.username + "/commits").success(function (data) {
-            $scope.repos = data;
-            $scope.reposFound = data.length > 0;
+         $http.get("https://api.github.com/repos/" + "VenkHanuman" + "/" + $scope.reposname + "/commits").success(function (data) {
+            $scope.commits = data;
+            $scope.commitsFound = data.length > 0;
          });
 
 		}
